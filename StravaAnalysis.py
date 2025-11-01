@@ -17,8 +17,7 @@ activity_data=df_activity_totals.iloc[0]
 activity_data=activity_data.reset_index()
 activity_data.columns=['ActivityType', 'TotalMinutes']
 plt.figure(figsize=(8, 8))
-plt.pie(activity_data['TotalMinutes'], labels=activity_data['ActivityType'], autopct='%1.1f%%',
-    startangle=90, colors=sns.color_palette('summer_r'))
+plt.pie(activity_data['TotalMinutes'], labels=activity_data['ActivityType'])
 plt.title('How Users Spend Their Day (Based on Total Minutes)', fontsize=16)
 activity_df=pd.read_sql("SELECT ActivityDate, TotalSteps FROM dailyactivity WHERE TotalSteps > 0", db_engine)
 activity_df['ActivityDate']=pd.to_datetime(activity_df['ActivityDate'])
@@ -28,12 +27,7 @@ activity_df['WeekPart']=activity_df['DayOfWeek'].apply(
 avg_steps_weekpart=activity_df.groupby('WeekPart')['TotalSteps'].mean().reset_index()
 avg_steps_weekpart=avg_steps_weekpart.sort_values(by='WeekPart', ascending=False)
 plt.figure(figsize=(7, 5))
-ax1=sns.barplot(
-    data=avg_steps_weekpart,
-    x='WeekPart',
-    y='TotalSteps',
-    palette=['#4c72b0', '#55a868']
-)
+ax1=sns.barplot(data=avg_steps_weekpart, x='WeekPart', y='TotalSteps',)
 ax1.set_title('Average Steps: Weekday vs. Weekend')
 ax1.set_ylabel('Average Total Steps')
 ax1.set_xlabel('')
@@ -57,21 +51,13 @@ hourly_calories_df['ActivityHour']=pd.to_datetime(hourly_calories_df['ActivityHo
 hourly_calories_df['Hour']=hourly_calories_df['ActivityHour'].dt.hour
 avg_calories_hour=hourly_calories_df.groupby('Hour')['Calories'].mean().reset_index()
 plt.figure(figsize=(12, 6))
-ax=sns.lineplot(
-    data=avg_calories_hour,
-    x='Hour',
-    y='Calories',
-    marker='o',
-    linewidth=2
-)
+ax=sns.lineplot(data=avg_calories_hour, x='Hour', y='Calories', marker='o')
 ax.set_title('Average Calories Burned by Hour of the Day')
 ax.set_ylabel('Average Calories')
 ax.set_xlabel('Hour of the Day (0-23)')
 ax.set_xticks(range(0, 24))  # Set ticks for every hour
 plt.grid(True, which='both', linestyle='--')
-sleep_df=pd.read_sql(
-    "SELECT TotalTimeInBed, TotalMinutesAsleep FROM sleepday_clean WHERE TotalMinutesAsleep > 0 AND TotalTimeInBed > 0",
-    db_engine)
+sleep_df=pd.read_sql("SELECT TotalTimeInBed, TotalMinutesAsleep FROM sleepday_clean WHERE TotalMinutesAsleep > 0 AND TotalTimeInBed > 0",db_engine)
 plt.figure(figsize=(10, 6))
 sns.scatterplot(
     data=sleep_df,
