@@ -1,3 +1,4 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Sumit_123';
 use strava;
 SHOW GLOBAL VARIABLES LIKE 'local_infile';
 
