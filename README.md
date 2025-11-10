@@ -45,5 +45,6 @@ Version Control: Git & GitHub
 
 
 
-#### -Sumit Sinha
+#### Project completed by Sumit Sinha
+
 
